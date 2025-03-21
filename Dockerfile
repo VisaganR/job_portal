@@ -1,7 +1,10 @@
 FROM node:18-alpine as builder
+RUN apk add --no-cache build-base cairo-dev pango-dev jpeg-dev giflib-dev
 WORKDIR /app
-COPY . .
+COPY package.json package-lock.json ./
 RUN npm install --include=dev
+COPY . .
+
 RUN npm run build
 
 FROM node:18-alpine AS runner
